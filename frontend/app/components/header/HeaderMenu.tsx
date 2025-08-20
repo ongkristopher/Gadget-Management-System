@@ -11,8 +11,8 @@ export function HeaderMenu() {
           <div className={classes.inner}>
             <h3>Gadget Management System</h3>
           </div>
-          <Button component={Link} href="/login">
-            Log in
+          <Button color="red" component={Link} href="/login">
+            Log out
           </Button>
         </Group>
       </Container>
