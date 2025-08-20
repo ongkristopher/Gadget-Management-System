@@ -16,26 +16,26 @@ help:
 	@echo "  make dev-frontend     - Run Next.js dev server"
 
 build:
-	docker-compose build
+	docker compose build
 
 up:
-	docker-compose up -d --build
+	docker compose up -d --build
 
 down:
-	docker-compose down
+	docker compose down
 
 logs:
-	docker-compose logs -f
+	docker compose logs -f
 
 shell:
-	docker-compose run backend python manage.py shell
+	docker compose run backend python manage.py shell
 
 migrate:
-	docker-compose run backend python manage.py migrate && \
-	docker-compose run backend python manage.py load_initial_data
+	docker compose run backend python manage.py migrate && \
+	docker compose run backend python manage.py load_initial_data
 
 makemigrations:
-	docker-compose run backend python manage.py makemigrations
+	docker compose run backend python manage.py makemigrations
 
 # ---------------- Frontend Commands ----------------
 install-frontend:
