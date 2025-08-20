@@ -12,7 +12,7 @@ import classes from "./Login.module.css";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import api from "../utils/axios";
 
@@ -26,6 +26,17 @@ type LoginFormData = z.infer<typeof loginSchema>;
 export default function LoginPage() {
   const router = useRouter();
   const [error, setError] = useState("");
+  const [checking, setChecking] = useState(true);
+
+  useEffect(() => {
+    const access = localStorage.getItem("access");
+    const refresh = localStorage.getItem("refresh");
+    if (access && refresh) {
+      router.replace("/");
+    } else {
+      setChecking(false);
+    }
+  }, [router]);
 
   const {
     register,
@@ -51,6 +62,7 @@ export default function LoginPage() {
     }
   };
 
+  if (checking) return null;
   return (
     <Container size={420} my={40}>
       <Title ta="center" className={classes.title}>
