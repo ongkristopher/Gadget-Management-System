@@ -1,0 +1,55 @@
+[
+  {
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+      "username": "juandelacruz",
+      "first_name": "Juan",
+      "last_name": "Dela Cruz",
+      "password": "pbkdf2_sha256$1000000$rnR3bcnIs9uVhUivyeeKSn$swfiNYWcDR2Q+oLQlDzVIzxOb5Ah57EaUpI593p1aEM="
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 2,
+    "fields": {
+      "username": "kristopherong",
+      "first_name": "Kristopher",
+      "last_name": "Ong",
+      "password": "pbkdf2_sha256$1000000$lf5VKwSHbWFCJttO07ACcw$bS9y0j+xDRT54cYbP7YflvHBaZo96hL/bb6oVnDnaLU="
+    }
+  },
+  {
+    "model": "gadgets.gadget",
+    "pk": 1,
+    "fields": {
+      "name": "Laptop",
+      "description": "Dell XPS 13",
+      "created": "2025-01-01T10:00:00Z",
+      "last_modified": "2025-01-01T10:00:00Z",
+      "owner": 1
+    }
+  },
+  {
+    "model": "gadgets.gadget",
+    "pk": 2,
+    "fields": {
+      "name": "Laptop",
+      "description": "Macbook Air M3",
+      "created": "2025-01-01T10:00:00Z",
+      "last_modified": "2025-01-01T10:00:00Z",
+      "owner": 1
+    }
+  },
+  {
+    "model": "gadgets.gadget",
+    "pk": 3,
+    "fields": {
+      "name": "Tablet",
+      "description": "iPad Air 5th Gen",
+      "created": "2025-01-03T08:45:00Z",
+      "last_modified": "2025-01-03T08:45:00Z",
+      "owner": 2
+    }
+  }
+]
