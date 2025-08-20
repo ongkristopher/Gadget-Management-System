@@ -1,6 +1,7 @@
 import { useState } from "react";
 import cx from "clsx";
 import {
+  Button,
   Checkbox,
   Group,
   ScrollArea,
@@ -9,27 +10,15 @@ import {
 } from "@mantine/core";
 import classes from "./TableSelection.module.css";
 import { formatDate } from "../../utils/format-date";
+import { IconTrash } from "@tabler/icons-react";
+import { IconEdit } from "@tabler/icons-react";
+import { IconDeviceTabletSearch } from "@tabler/icons-react";
+import { IconFilePlus } from "@tabler/icons-react";
+import { Gadget } from "../../types/gadget.type";
 
-const data = [
-  {
-    id: 1,
-    name: "Laptop",
-    description: "Dell XPS 13",
-    created: "2025-01-01T10:00:00Z",
-    last_modified: "2025-01-01T10:00:00Z",
-  },
-  {
-    id: 2,
-    name: "Laptop",
-    description: "Macbook Air M3",
-    created: "2025-01-01T10:00:00Z",
-    last_modified: "2025-01-01T10:00:00Z",
-  },
-];
-
-export function TableSelection() {
-  const [selection, setSelection] = useState([0]);
-  const toggleRow = (id: number) =>
+export function TableSelection({ data }: { data: Gadget[] }) {
+  const [selection, setSelection] = useState<Gadget['id'][]>([]);
+  const toggleRow = (id: Gadget["id"]) =>
     setSelection((current) =>
       current.includes(id)
         ? current.filter((item) => item !== id)
@@ -62,34 +51,66 @@ export function TableSelection() {
         </Table.Td>
         <Table.Td>{item.description}</Table.Td>
         <Table.Td>{formatDate(item.created)}</Table.Td>
-        <Table.Td>{formatDate(item.last_modified)}</Table.Td>
+        <Table.Td>{item.last_modified ? formatDate(item.last_modified) : ''}</Table.Td>
+        <Table.Td>
+          <Group>
+            <Button color="red">
+              <IconTrash stroke={1.25} />
+            </Button>
+            <Button color="yellow">
+              <IconEdit stroke={1.25} />
+            </Button>
+            <Button color="green">
+              <IconDeviceTabletSearch stroke={1.25} />
+            </Button>
+          </Group>
+        </Table.Td>
       </Table.Tr>
     );
   });
 
   return (
-    <ScrollArea>
-      <Table miw={800} verticalSpacing="sm">
-        <Table.Thead>
-          <Table.Tr>
-            <Table.Th w={40}>
-              <Checkbox
-                onChange={toggleAll}
-                checked={selection.length === data.length}
-                indeterminate={
-                  selection.length > 0 && selection.length !== data.length
-                }
-              />
-            </Table.Th>
-            <Table.Th>Name</Table.Th>
-            <Table.Th>Description</Table.Th>
-            <Table.Th>Created At</Table.Th>
-            <Table.Th>Updated At</Table.Th>
-            <Table.Th>Actions</Table.Th>
-          </Table.Tr>
-        </Table.Thead>
-        <Table.Tbody>{rows}</Table.Tbody>
-      </Table>
-    </ScrollArea>
+    <div>
+      <Group mb="sm" justify="flex-end">
+        <Button
+          color="red"
+          disabled={selection.length === 0}
+          leftSection={<IconTrash stroke={1.25} />}
+          onClick={() => alert(`Deleting IDs: ${selection.join(", ")}`)}
+        >
+          Delete selected ({selection.length})
+        </Button>
+        <Button
+          color="green"
+          leftSection={<IconFilePlus stroke={1.25} />}
+          onClick={() => alert(`Create new popup`)}
+        >
+          Add new Gadget
+        </Button>
+      </Group>
+      <ScrollArea>
+        <Table miw={800} verticalSpacing="sm">
+          <Table.Thead>
+            <Table.Tr>
+              <Table.Th w={40}>
+                <Checkbox
+                  onChange={toggleAll}
+                  checked={selection.length === data.length}
+                  indeterminate={
+                    selection.length > 0 && selection.length !== data.length
+                  }
+                />
+              </Table.Th>
+              <Table.Th>Name</Table.Th>
+              <Table.Th>Description</Table.Th>
+              <Table.Th>Created At</Table.Th>
+              <Table.Th>Updated At</Table.Th>
+              <Table.Th>Actions</Table.Th>
+            </Table.Tr>
+          </Table.Thead>
+          <Table.Tbody>{rows}</Table.Tbody>
+        </Table>
+      </ScrollArea>
+    </div>
   );
 }
