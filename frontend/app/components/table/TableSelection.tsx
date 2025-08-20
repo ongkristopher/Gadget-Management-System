@@ -1,7 +1,6 @@
 import { useState } from "react";
 import cx from "clsx";
 import {
-  Avatar,
   Checkbox,
   Group,
   ScrollArea,
@@ -9,6 +8,7 @@ import {
   Text,
 } from "@mantine/core";
 import classes from "./TableSelection.module.css";
+import { formatDate } from "../../utils/format-date";
 
 const data = [
   {
@@ -61,8 +61,8 @@ export function TableSelection() {
           </Group>
         </Table.Td>
         <Table.Td>{item.description}</Table.Td>
-        <Table.Td>{item.created}</Table.Td>
-        <Table.Td>{item.last_modified}</Table.Td>
+        <Table.Td>{formatDate(item.created)}</Table.Td>
+        <Table.Td>{formatDate(item.last_modified)}</Table.Td>
       </Table.Tr>
     );
   });
