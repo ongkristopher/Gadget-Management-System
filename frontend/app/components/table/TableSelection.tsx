@@ -36,20 +36,6 @@ export function TableSelection({ data }: { data: Gadget[] }) {
     setGadgetModalOpened(true);
   };
 
-  const handleAddGadget = (values: {
-    name: Gadget["name"];
-    description: Gadget["description"];
-  }) => {
-    console.log("Add gadget:", values);
-  };
-
-  const handleEditGadget = (
-    values: { name: Gadget["name"]; description: Gadget["description"] },
-    id?: Gadget["id"]
-  ) => {
-    console.log("Edit gadget:", id, values);
-  };
-
   const rows = data.map((item) => {
     const selected = selection.includes(item.id);
     return (
@@ -101,9 +87,6 @@ export function TableSelection({ data }: { data: Gadget[] }) {
         opened={gadgetModalOpened}
         onClose={() => setGadgetModalOpened(false)}
         gadget={editingGadget}
-        onSubmit={(values, id) =>
-          editingGadget ? handleEditGadget(values, id) : handleAddGadget(values)
-        }
       />
       <Group mb="sm" justify="flex-end">
         <Button

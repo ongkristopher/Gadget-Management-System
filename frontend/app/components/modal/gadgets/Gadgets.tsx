@@ -1,11 +1,19 @@
 "use client";
 
-import { Modal, Button, Stack, Textarea, TextInput } from "@mantine/core";
+import {
+  Modal,
+  Button,
+  Stack,
+  Textarea,
+  TextInput,
+  Notification,
+} from "@mantine/core";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Gadget } from "../../../types/gadget.type";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import api from "../../../utils/axios";
 
 const gadgetSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -17,11 +25,11 @@ type GadgetFormValues = z.infer<typeof gadgetSchema>;
 interface GadgetModalProps {
   opened: boolean;
   onClose: () => void;
-  onSubmit: (values: GadgetFormValues, id?: number) => void;
   gadget?: Gadget | null;
 }
 
-export function GadgetModal({ opened, onClose, onSubmit, gadget }: GadgetModalProps) {
+export function GadgetModal({ opened, onClose, gadget }: GadgetModalProps) {
+  const [error, setError] = useState("");
   const {
     register,
     handleSubmit,
@@ -44,15 +52,59 @@ export function GadgetModal({ opened, onClose, onSubmit, gadget }: GadgetModalPr
   }, [gadget, reset]);
 
   const submitHandler = (values: GadgetFormValues) => {
-    onSubmit(values, gadget?.id);
-    reset();
-    onClose();
+    if (gadget?.id) {
+      handleEditGadget(values, gadget.id);
+    } else {
+      handleAddGadget(values);
+    }
   };
 
   const handleCloseModal = () => {
     reset();
     onClose();
-  }
+  };
+
+  const handleAddGadget = async (values: {
+    name: Gadget["name"];
+    description: Gadget["description"];
+  }) => {
+    try {
+      await api.post("gadgets/", {
+        name: values.name,
+        description: values.description,
+      });
+      reset();
+      onClose();
+    } catch (err) {
+      if (typeof err === "string") {
+        setError(err);
+      } else {
+        setError("check console for more information about the error");
+        console.error(err);
+      }
+    }
+  };
+
+  const handleEditGadget = async (
+    values: { name: Gadget["name"]; description: Gadget["description"] },
+    id?: Gadget["id"]
+  ) => {
+    try {
+      await api.patch(`gadgets/${id}/`, {
+        name: values.name,
+        description: values.description,
+      });
+      reset();
+      onClose();
+    } catch (err) {
+      if (typeof err === "string") {
+        setError(err);
+      } else {
+        setError("check console for more information about the error");
+        console.error(err);
+      }
+    }
+  };
 
   return (
     <Modal
@@ -61,6 +113,11 @@ export function GadgetModal({ opened, onClose, onSubmit, gadget }: GadgetModalPr
       title={gadget ? "Edit Gadget" : "Add New Gadget"}
       size="lg"
     >
+      {error && (
+        <Notification color="red" mb="md">
+          {error}
+        </Notification>
+      )}
       <form onSubmit={handleSubmit(submitHandler)}>
         <Stack gap="md">
           <TextInput
