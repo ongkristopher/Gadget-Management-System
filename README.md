@@ -23,18 +23,20 @@ To run this project, you will need to create `.env` file inside the following di
 `./frontend/` - location of the frontend. You can check [here](https://github.com/ongkristopher/Gadget-Management-System/blob/main/frontend/.env.example)
 
 #### Variables
-`NEXT_PUBLIC_API_URL` = the url of the backend. use in frontend to communicate to the backend.
+`NEXT_PUBLIC_API_URL` - the url of the backend. use in frontend to communicate to the backend.
+
+`POLLING_INTERVAL_IN_MS` - The polling period in the table before fetching a fresh list of Gadgets. (ATTOW. I am unsure how to implement correctly the websocket/channel in Django, I done it on express a long time ago. 😅)
 
 ### Backend
 #### Location
 `./` - Root of the project. You can check [here](https://github.com/ongkristopher/Gadget-Management-System/blob/main/.env.example)
 
 #### Variables
-`POSTGRES_USER` = postgres user name.
+`POSTGRES_USER` - postgres user name.
 
-`POSTGRES_PASSWORD` = db password.
+`POSTGRES_PASSWORD` - db password.
 
-`POSTGRES_DB` = name of the database you want to setup.
+`POSTGRES_DB` - name of the database you want to setup.
 
 `DJANGO_SECRET_KEY` - any string just for secret.
 

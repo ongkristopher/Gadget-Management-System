@@ -11,6 +11,8 @@ export default function HomePage() {
   const [gadgets, setGadgets] = useState<Gadget[]>([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+  // I just casually put 9000ms here if there is no env available
+  const pollingPeriod = parseInt(process.env.POLLING_INTERVAL_IN_MS ?? '9000');
 
   const fetchGadgets = useCallback(async () => {
     try {
@@ -28,7 +30,14 @@ export default function HomePage() {
     if (!token) {
       router.push("/login");
     } else {
+      // initial fetch
       fetchGadgets();
+
+      // fetch based on env variable settings
+      const interval = setInterval(() => {
+        fetchGadgets();
+      }, pollingPeriod);
+      return () => clearInterval(interval);
     }
   }, [router]);
 
