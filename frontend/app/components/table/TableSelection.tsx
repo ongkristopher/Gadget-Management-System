@@ -18,7 +18,6 @@ import { GadgetModal } from "../modal/gadgets/Gadgets";
 
 export function TableSelection({ data }: { data: Gadget[] }) {
   const [gadgetModalOpened, setGadgetModalOpened] = useState(false);
-  const [activeRecord, setActiveRecord] = useState<Gadget | null>(null);
   const [editingGadget, setEditingGadget] = useState<Gadget | null>(null);
   const [selection, setSelection] = useState<Gadget["id"][]>([]);
   const toggleRow = (id: Gadget["id"]) =>
