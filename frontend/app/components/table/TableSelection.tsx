@@ -36,13 +36,16 @@ export function TableSelection({ data }: { data: Gadget[] }) {
     setGadgetModalOpened(true);
   };
 
-  const handleAddGadget = (values: { name: string; description: string }) => {
+  const handleAddGadget = (values: {
+    name: Gadget["name"];
+    description: Gadget["description"];
+  }) => {
     console.log("Add gadget:", values);
   };
 
   const handleEditGadget = (
-    values: { name: string; description: string },
-    id?: number
+    values: { name: Gadget["name"]; description: Gadget["description"] },
+    id?: Gadget["id"]
   ) => {
     console.log("Edit gadget:", id, values);
   };
