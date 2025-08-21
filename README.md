@@ -3,6 +3,15 @@
 
 A system to manage devices/gadget
 
+## Tech Stack
+
+Backend - [django-rest-framework](https://www.django-rest-framework.org/)
+
+Database - [postgres](https://www.postgresql.org/)
+
+Frontend - [Next.js](nextjs.org)
+
+Container - [Docker](https://www.docker.com/)
 
 ## Environment Variables
 
@@ -11,14 +20,14 @@ To run this project, you will need to create `.env` file inside the following di
 
 ### Frontend
 #### Location
-`./frontend/` - location of the frontend
+`./frontend/` - location of the frontend. You can check [here](https://github.com/ongkristopher/Gadget-Management-System/blob/main/frontend/.env.example)
 
 #### Variables
 `NEXT_PUBLIC_API_URL` = the url of the backend. use in frontend to communicate to the backend.
 
 ### Backend
 #### Location
-`./` - Root of the project
+`./` - Root of the project. You can check [here](https://github.com/ongkristopher/Gadget-Management-System/blob/main/.env.example)
 
 #### Variables
 `POSTGRES_USER` = postgres user name.
@@ -37,7 +46,7 @@ After finishing setting up environment variables. Let us now proceed to start th
 
 ## Deployment
 
-Migration is handled in the backend. We have a fixture that is located on:
+Migration is handled in the backend. We have a fixture that is located [here](https://github.com/ongkristopher/Gadget-Management-System/blob/main/backend/gadget_management_system/gadgets/fixtures/initial_data.json):
 ```bash
   ./backend/gadget_management_system/gadgets/fixtures/initial_data.json
 ```
