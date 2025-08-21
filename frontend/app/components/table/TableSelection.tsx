@@ -11,13 +11,16 @@ import {
 import classes from "./TableSelection.module.css";
 import { formatDate } from "../../utils/format-date";
 import { IconTrash } from "@tabler/icons-react";
-import { IconEdit } from "@tabler/icons-react";
 import { IconDeviceTabletSearch } from "@tabler/icons-react";
 import { IconFilePlus } from "@tabler/icons-react";
 import { Gadget } from "../../types/gadget.type";
+import { GadgetModal } from "../modal/gadgets/Gadgets";
 
 export function TableSelection({ data }: { data: Gadget[] }) {
-  const [selection, setSelection] = useState<Gadget['id'][]>([]);
+  const [gadgetModalOpened, setGadgetModalOpened] = useState(false);
+  const [activeRecord, setActiveRecord] = useState<Gadget | null>(null);
+  const [editingGadget, setEditingGadget] = useState<Gadget | null>(null);
+  const [selection, setSelection] = useState<Gadget["id"][]>([]);
   const toggleRow = (id: Gadget["id"]) =>
     setSelection((current) =>
       current.includes(id)
@@ -28,6 +31,22 @@ export function TableSelection({ data }: { data: Gadget[] }) {
     setSelection((current) =>
       current.length === data.length ? [] : data.map((item) => item.id)
     );
+
+  const handleOpenModal = () => {
+    setEditingGadget(null);
+    setGadgetModalOpened(true);
+  };
+
+  const handleAddGadget = (values: { name: string; description: string }) => {
+    console.log("Add gadget:", values);
+  };
+
+  const handleEditGadget = (
+    values: { name: string; description: string },
+    id?: number
+  ) => {
+    console.log("Edit gadget:", id, values);
+  };
 
   const rows = data.map((item) => {
     const selected = selection.includes(item.id);
@@ -51,16 +70,21 @@ export function TableSelection({ data }: { data: Gadget[] }) {
         </Table.Td>
         <Table.Td>{item.description}</Table.Td>
         <Table.Td>{formatDate(item.created)}</Table.Td>
-        <Table.Td>{item.last_modified ? formatDate(item.last_modified) : ''}</Table.Td>
+        <Table.Td>
+          {item.last_modified ? formatDate(item.last_modified) : ""}
+        </Table.Td>
         <Table.Td>
           <Group>
             <Button color="red">
               <IconTrash stroke={1.25} />
             </Button>
-            <Button color="yellow">
-              <IconEdit stroke={1.25} />
-            </Button>
-            <Button color="green">
+            <Button
+              color="green"
+              onClick={() => {
+                setEditingGadget(item);
+                setGadgetModalOpened(true);
+              }}
+            >
               <IconDeviceTabletSearch stroke={1.25} />
             </Button>
           </Group>
@@ -71,6 +95,14 @@ export function TableSelection({ data }: { data: Gadget[] }) {
 
   return (
     <div>
+      <GadgetModal
+        opened={gadgetModalOpened}
+        onClose={() => setGadgetModalOpened(false)}
+        gadget={editingGadget}
+        onSubmit={(values, id) =>
+          editingGadget ? handleEditGadget(values, id) : handleAddGadget(values)
+        }
+      />
       <Group mb="sm" justify="flex-end">
         <Button
           color="red"
@@ -83,7 +115,7 @@ export function TableSelection({ data }: { data: Gadget[] }) {
         <Button
           color="green"
           leftSection={<IconFilePlus stroke={1.25} />}
-          onClick={() => alert(`Create new popup`)}
+          onClick={() => handleOpenModal()}
         >
           Add new Gadget
         </Button>
