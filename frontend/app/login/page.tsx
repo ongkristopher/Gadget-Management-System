@@ -78,7 +78,7 @@ export default function LoginPage() {
         <form onSubmit={handleSubmit(onSubmit)}>
           <TextInput
             label="Username"
-            placeholder="yourusername"
+            placeholder="Your username"
             {...register("username")}
             error={errors.username?.message}
             required
