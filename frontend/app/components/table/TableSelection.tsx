@@ -151,7 +151,7 @@ export function TableSelection({
           leftSection={<IconFilePlus stroke={1.25} />}
           onClick={() => handleOpenModal()}
         >
-          Add new Gadget
+          Create Gadget
         </Button>
       </Group>
       <ScrollArea>
