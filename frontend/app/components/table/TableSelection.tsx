@@ -16,7 +16,13 @@ import { IconFilePlus } from "@tabler/icons-react";
 import { Gadget } from "../../types/gadget.type";
 import { GadgetModal } from "../modal/gadgets/Gadgets";
 
-export function TableSelection({ data }: { data: Gadget[] }) {
+export function TableSelection({
+  data,
+  fetchGadgets,
+}: {
+  data: Gadget[];
+  fetchGadgets: () => void;
+}) {
   const [gadgetModalOpened, setGadgetModalOpened] = useState(false);
   const [editingGadget, setEditingGadget] = useState<Gadget | null>(null);
   const [selection, setSelection] = useState<Gadget["id"][]>([]);
@@ -35,6 +41,11 @@ export function TableSelection({ data }: { data: Gadget[] }) {
     setEditingGadget(null);
     setGadgetModalOpened(true);
   };
+
+  const handleCloseModal = () => {
+    setGadgetModalOpened(false);
+    fetchGadgets();
+  }
 
   const rows = data.map((item) => {
     const selected = selection.includes(item.id);
@@ -85,7 +96,7 @@ export function TableSelection({ data }: { data: Gadget[] }) {
     <div>
       <GadgetModal
         opened={gadgetModalOpened}
-        onClose={() => setGadgetModalOpened(false)}
+        onClose={handleCloseModal}
         gadget={editingGadget}
       />
       <Group mb="sm" justify="flex-end">
