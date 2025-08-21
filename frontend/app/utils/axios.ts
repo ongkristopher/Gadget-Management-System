@@ -19,7 +19,7 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.data?.code === "token_not_valid") {
+    if (error.response?.status === 401) {
       localStorage.removeItem("access");
       localStorage.removeItem("refresh");
 

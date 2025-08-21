@@ -10,7 +10,7 @@ router.register(r"gadgets", GadgetViewSet, basename="gadget")
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/auth/login/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
-    path("api/auth/refresh/", TokenRefreshView.as_view(), name="token_refresh"),  # optional
+    path("api/auth/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     # Gadget API
     path("api/", include(router.urls)),
 ]
