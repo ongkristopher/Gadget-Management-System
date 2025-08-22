@@ -26,9 +26,8 @@ export default function HomePage() {
   useEffect(() => {
     const token = localStorage.getItem("access");
     // I just casually put 9000ms here if there is no env available
-    const pollingPeriod = parseInt(
-      process.env.POLLING_INTERVAL_IN_MS ?? "9000"
-    );
+    const pollingPeriod =
+      process.env.NEXT_PUBLIC_POLLING_INTERVAL_IN_MS || "9000";
     if (!token) {
       router.push("/login");
     } else {
@@ -38,7 +37,7 @@ export default function HomePage() {
       // fetch based on env variable settings
       const interval = setInterval(() => {
         fetchGadgets();
-      }, pollingPeriod);
+      }, parseInt(pollingPeriod));
       return () => clearInterval(interval);
     }
   }, [router, fetchGadgets]);
