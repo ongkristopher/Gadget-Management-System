@@ -25,7 +25,7 @@ To run this project, you will need to create `.env` file inside the following di
 #### Variables
 `NEXT_PUBLIC_API_URL` - the url of the backend. use in frontend to communicate to the backend.
 
-`POLLING_INTERVAL_IN_MS` - The polling period in the table before fetching a fresh list of Gadgets. (ATTOW. I am unsure how to implement correctly the websocket/channel in Django, I done it on express a long time ago. 😅)
+`NEXT_PUBLIC_POLLING_INTERVAL_IN_MS` - The polling period in the table before fetching a fresh list of Gadgets. (ATTOW. I am unsure how to implement correctly the websocket/channel in Django, I done it on express a long time ago. 😅)
 
 ### Backend
 #### Location
