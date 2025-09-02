@@ -25,23 +25,30 @@ export default function HomePage() {
 
   useEffect(() => {
     const token = localStorage.getItem("access");
-    // I just casually put 9000ms here if there is no env available
-    const pollingPeriod =
-      process.env.NEXT_PUBLIC_POLLING_INTERVAL_IN_MS || "9000";
     if (!token) {
       router.push("/login");
-    } else {
-      // initial fetch
-      fetchGadgets();
-
-      // fetch based on env variable settings
-      const interval = setInterval(() => {
-        fetchGadgets();
-      }, parseInt(pollingPeriod));
-      return () => clearInterval(interval);
+      return;
     }
-  }, [router, fetchGadgets]);
 
+    fetchGadgets();
+
+    const socket = new WebSocket(
+      `ws://localhost:8000/ws/gadgets/?token=${token}`
+    );
+
+    socket.onopen = () => console.log("Connected to WebSocket");
+
+    socket.onmessage = (event) => {
+      console.log(event)
+      const data = JSON.parse(event.data);
+
+      setGadgets(data.gadgets);
+    };
+
+    socket.onclose = () => console.log("WebSocket closed");
+
+    return () => socket.close();
+  }, [router, fetchGadgets]);
   if (loading) return <p>Loading...</p>;
 
   return (
